@@ -23,14 +23,14 @@
 
 1.  **リポジトリのクローン**:
     ```bash
-    git clone [https://github.com/your-username/granite-elyza-eval.git](https://github.com/your-username/granite-elyza-eval.git)
+    git clone https://github.com/your-username/granite-elyza-eval.git
     cd granite-elyza-eval
     ```
 2.  **Shaberiリポジトリのクローン**:
     ```bash
     # /workspaces のような親ディレクトリに移動してからクローン
     cd /workspaces
-    git clone [https://github.com/shisa-ai/shaberi.git](https://github.com/shisa-ai/shaberi.git)
+    git clone https://github.com/shisa-ai/shaberi.git
     ```
 3.  **Python仮想環境の作成とアクティベート**:
     ```bash
@@ -57,7 +57,7 @@
     * `WATSONX_TOKEN` は `WATSONX_API_KEY` から以下のコマンドで生成します（時限トークン）。
         ```bash
         export WATSONX_TOKEN=$(curl -X POST \
-          "[https://iam.cloud.ibm.com/identity/token](https://iam.cloud.ibm.com/identity/token)" \
+          "https://iam.cloud.ibm.com/identity/token" \
           -H 'Content-Type: application/x-www-form-urlencoded' \
           -H 'Accept: application/json' \
           --data-urlencode "grant_type=urn:ibm:params:oauth:grant-type:apikey" \
