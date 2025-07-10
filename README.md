@@ -46,7 +46,7 @@
     ```
 5.  **環境変数の設定**:
     * `WATSONX_API_KEY` (IBM Cloud APIキー)
-    * `PROJECT_ID` (Watsonx.ai プロジェクトID)
+    * `PROJECT_ID` (watsonx.ai watsonx.ai StudioプロジェクトID)
     * `OPENAI_API_KEY` (Shaberiの評価用LLM用)
 
     ```bash
@@ -66,20 +66,21 @@
 
 ### 2. モデル応答の生成
 
-`scripts/generate_elyza_task.py` を実行し、Watsonx.ai のモデルから ELYZA-tasks-100 への応答を生成します。
+`scripts/generate_elyza_task.py` を実行し、Watsonx.ai のモデルから ELYZA-tasks-100 への応答を生成します。-mオプションはgranite-3-8b-instructかgranite-8b-japaneseを使います。
 
 ```bash
 python scripts/generate_elyza_task.py -m granite-3-8b-instruct -n 100 # または -n で件数指定
 ```
-* 生成されたファイル: `data/raw_model_responses/watsonx_granite_3_8b_instruct_elyza100_encoded.jsonl` など
+* 生成されたファイル（評価用）: `data/raw_model_responses/watsonx_granite_3_8b_instruct_elyza100_encoded.jsonl` など
+* 生成されたファイル（確認用）: `data/raw_model_responses/watsonx_granite_3_8b_instruct_elyza100_readable.jsonl` など
 
 ### 3. Shaberiによる評価
 
-生成したモデル応答をShaberiが評価できるように配置し、`judge_answers.py` を実行します。
+生成したモデル応答をShaberiが評価できるように配置し、`judge_answers.py` を実行します。コマンド中のモデル文字列はgranite-3-8b-instructかgranite-8b-japaneseを使います。
 
-1.  **モデル応答ファイルをShaberiの期待する場所にコピー**:
+1.  **モデル応答ファイルをShaberiの指定場所にコピー**:
     ```bash
-    mkdir -p /workspaces/shaberi/data/model_answers/elyza__ELYZA-tasks-100
+    # mkdir -p /workspaces/shaberi/data/model_answers/elyza__ELYZA-tasks-100
     cp -p data/raw_model_responses/watsonx_granite_3_8b_instruct_elyza100_encoded.jsonl \
         /workspaces/shaberi/data/model_answers/elyza__ELYZA-tasks-100/ibm__granite-3-8b-instruct.json
     ```
@@ -88,8 +89,7 @@ python scripts/generate_elyza_task.py -m granite-3-8b-instruct -n 100 # また�
     cd /workspaces/shaberi/ # Shaberiリポジトリに移動
     python judge_answers.py \
       -m "ibm/granite-3-8b-instruct" \
-      -d "elyza/ELYZA-tasks-100" \
-      # -e gpt-4o # 評価モデルを明示的に指定する場合
+      -d "elyza/ELYZA-tasks-100"
     ```
 * 生成されたファイル: `/workspaces/shaberi/data/judgements/judge_gpt-4.1-2025-04-14/elyza__ELYZA-tasks-100/ibm__granite-3-8b-instruct.json` など
 
@@ -108,13 +108,13 @@ Shaberiの評価結果をあなたのリポジトリにコピーし、可読性�
     ```bash
     python scripts/convert_jsonl_to_csv.py --model granite-3-8b-instruct
     ```
-* 生成されたファイル: `results/readable_csv_results/watsonx_granite_3_8b_instruct_elyza100_readable_results.csv`
+* 生成されたファイル: `results/readable_csv_results/watsonx_granite_3_8b_instruct_elyza100_readable_results.csv` など
 
 ---
 
 ## 📊 最終結果データ
 
-最終的な評価結果（CSV形式）は `results/readable_csv_results/watsonx_granite_3_8b_instruct_elyza100_readable_results.csv` でご確認いただけます。
+最終的な評価結果（CSV形式）は `results/readable_csv_results/watsonx_granite_3_8b_instruct_elyza100_readable_results.csv` などでご確認いただけます。
 
 モデルの生応答データは `data/raw_model_responses/` に、Shaberiによる詳細なJSONL結果は `results/shisa_judge_results/` にそれぞれ保存されています。
 
